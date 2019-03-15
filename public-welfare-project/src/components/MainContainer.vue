@@ -20,7 +20,9 @@ export default {
   methods: {
     onSearch: function () {
       // TODO
+      this.$message.info('searching')
     }
+
   }
 }
 </script>
