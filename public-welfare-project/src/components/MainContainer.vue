@@ -1,12 +1,6 @@
 <template>
   <div class="main-con">
-    <div class="top-panel">
-      <a-input-search
-        placeholder="input search text"
-        style="width: 80%"
-        @search="onSearch"></a-input-search>
-    </div>
-
+    <router-view></router-view>
   </div>
 </template>
 
@@ -18,10 +12,7 @@ export default {
     }
   },
   methods: {
-    onSearch: function () {
-      // TODO
-      this.$message.info('searching')
-    }
+
 
   }
 }

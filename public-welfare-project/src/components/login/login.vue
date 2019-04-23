@@ -42,13 +42,14 @@
         },
       methods: {
           toLogin: function () {
-            welfarePost('/api/login', this.formInline).then( (res)=> {
-              //TODO
-
-            }).catch( err => {
-              //TODO
-              console.log(err);
-            } )
+            // welfarePost('/api/login', this.formInline).then( (res)=> {
+            //   //TODO
+            //
+            // }).catch( err => {
+            //   //TODO
+            //   console.log(err);
+            // } )
+            location.href = '#/home';
           },
           toRegister: function () {
 

@@ -3,14 +3,15 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { Button, Input, message, Form } from 'ant-design-vue'
+import { Button, Input, message, Form, Carousel } from 'ant-design-vue'
 import 'ant-design-vue/dist/antd.css'
 
-Vue.config.productionTip = false
-Vue.use(Button)
-Vue.use(Input)
-Vue.use(Form)
-Vue.prototype.$message = message
+Vue.config.productionTip = false;
+Vue.use(Button);
+Vue.use(Input);
+Vue.use(Form);
+Vue.use(Carousel);
+Vue.prototype.$message = message;
 
 /* eslint-disable no-new */
 new Vue({
