@@ -23,39 +23,45 @@
 </template>
 
 <script>
-    import AFormItem from "ant-design-vue/es/form/FormItem";
-    import { welfareGet, welfarePost } from "../../common/common";
+import AFormItem from 'ant-design-vue/es/form/FormItem'
+import { welfareGet, welfarePost } from '../../common/common'
+import { ACCOUNTS } from '../../const/const'
 
-    export default {
-        name: "login",
-      components: {AFormItem},
-      data() {
-          return {
-            formInline: {
-              name: '',
-              password: '',
-            },
-            form: this.$form.createForm(this),
-            showLoading: false,
+export default {
+  name: 'login',
+  components: {AFormItem},
+  data () {
+    return {
+      formInline: {
+        name: '',
+        password: ''
+      },
+      form: this.$form.createForm(this),
+      showLoading: false
 
-          }
-        },
-      methods: {
-          toLogin: function () {
-            // welfarePost('/api/login', this.formInline).then( (res)=> {
-            //   //TODO
-            //
-            // }).catch( err => {
-            //   //TODO
-            //   console.log(err);
-            // } )
-            location.href = '#/home';
-          },
-          toRegister: function () {
-
-          }
-      }
     }
+  },
+  methods: {
+    toLogin: function () {
+      let res = ACCOUNTS.filter(el => {
+        return el.name === this.formInline.name
+      })
+      console.log(res);
+      if (res.length === 0) {
+        this.$message.warn('账户不存在')
+      } else {
+        if (res[0].password.toString() === this.formInline.password) {
+          location.href = '#/home'
+        } else {
+          this.$message.warn('密码错误')
+        }
+      }
+    },
+    toRegister: function () {
+
+    }
+  }
+}
 </script>
 
 <style lang="less" scoped>

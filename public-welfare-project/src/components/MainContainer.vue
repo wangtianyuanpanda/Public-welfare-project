@@ -1,5 +1,8 @@
 <template>
   <div class="main-con">
+    <div class="header">
+      <p>智能补助金查询平台</p>
+    </div>
     <router-view></router-view>
   </div>
 </template>
