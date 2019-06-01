@@ -5,10 +5,10 @@
         placeholder="input search text"
         style="width: 80%; margin-bottom: 20px;"
         @search="onSearch"></a-input-search>
-        <a-carousel autoplay>
-          <div>p1</div>
-          <div>p2 </div>
-          <div>p3</div>
+        <a-carousel autoplay class="carousel-con">
+          <div><img src="../assets/p1.jpg"/></div>
+          <div><img src="../assets/p2.jpg"/></div>
+          <div><img src="../assets/p3.jpg"/></div>
         </a-carousel>
       </div>
       <div class="main-panel">
@@ -67,6 +67,12 @@ export default {
               overflow: hidden;
               color: #fff
             }
+      .carousel-con {
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
     }
 
     .main-panel {

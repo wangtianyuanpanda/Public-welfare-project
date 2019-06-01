@@ -1,8 +1,8 @@
 <template>
     <div class="login-con">
-      <img class="background-img" src="../../assets/bg1.jpg"/>
+      <img class="background-img" src="../../assets/bg3.jpg"/>
       <div class="input-con">
-        <p class="title">智能补助金查询平台</p>
+        <p class="title" style="color: white">智能补助金查询平台</p>
         <form style="width: 60%; margin: 0px auto" :form="form" @submit="toLogin">
           <div class="input-item">
             <span>姓名：</span>
@@ -80,9 +80,13 @@ export default {
       display: flex;
       white-space: nowrap;
       margin: 20px 0 20px;
+      color: white;
       span {
         height: 32px;
         line-height: 32px;
+      }
+      .ant-input {
+        color: white;
       }
     }
     .title {
