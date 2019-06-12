@@ -43,19 +43,24 @@ export default {
   },
   methods: {
     toLogin: function () {
-      let res = ACCOUNTS.filter(el => {
-        return el.name === this.formInline.name
+      //本地数据mock登陆
+      // let res = ACCOUNTS.filter(el => {
+      //   return el.name === this.formInline.name
+      // })
+      // console.log(res);
+      // if (res.length === 0) {
+      //   this.$message.warn('账户不存在')
+      // } else {
+      //   if (res[0].password.toString() === this.formInline.password) {
+      //     location.href = '#/home'
+      //   } else {
+      //     this.$message.warn('密码错误')
+      //   }
+      // }
+      //后端接口登陆
+      welfarePost('/api/login', {name: this.formInline.name, password: this.formInline.password}).then(ret => {
+        console.log('success')
       })
-      console.log(res);
-      if (res.length === 0) {
-        this.$message.warn('账户不存在')
-      } else {
-        if (res[0].password.toString() === this.formInline.password) {
-          location.href = '#/home'
-        } else {
-          this.$message.warn('密码错误')
-        }
-      }
     },
     toRegister: function () {
 
