@@ -63,13 +63,22 @@
         </div>
       </div>
       <div v-else style="height: calc(100% - 20px); width: 100%; overflow-x: hidden;">
-        <div v-for="(item, index) in data" class="list-item" :key="index">
-          <p>
+        <div v-for="(item, index) in data" class="list-item" :key="index" v-if="data.length!==0">
+          <p style="font-weight: 500">
             标题：{{item.fields && item.fields.title}}
           </p>
-          <p>
+          <p style="margin-bottom: 0.2rem">
             年份：{{item.fields && item.fields.time}}
           </p>
+          <p style="margin-bottom: 0.2rem">
+            种类：{{item.fields && item.fields.Category}}
+          </p>
+          <p style="margin-bottom: 0.2rem">
+            金额：{{item.fields && item.fields.award_money}}
+          </p>
+        </div>
+        <div v-if="data.length==0" style="font-size: 20px; text-align: center">
+          暂无数据~
         </div>
       </div>
     </div>
@@ -192,12 +201,14 @@ export default {
       /*height: calc(100% - 350px);*/
       height: 300px;
       width: 100%;
-      padding: 20px 0;
+      padding: 20px 5px;
       overflow-x: hidden;
       overflow-y: scroll;
       p {
         white-space: nowrap;
-        text-overflow: ellipsis}
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
     .bottom-panel {
       position: absolute;
@@ -218,6 +229,9 @@ export default {
     margin: 0 10px 10px;
     padding: 7px 6px 1px;
     text-align: left;
+    &:hover {
+      box-shadow: 0 2px 5px #AEEEEE;
+    }
   }
   .reset-btn {
     width: 100%;

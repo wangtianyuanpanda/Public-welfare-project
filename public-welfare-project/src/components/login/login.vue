@@ -59,8 +59,13 @@ export default {
       // }
       //后端接口登陆
       welfarePost('/login/', {account: this.formInline.name, password: this.formInline.password}).then(ret => {
-        this.$message.info('登陆成功');
-        location.href = '#/home'
+        if(ret.allowLogin) {
+          this.$message.info('登陆成功');
+          location.href = '#/home'
+        } else {
+          this.$message.info('登陆失败');
+          location.href = '#/login'
+        }
       })
     },
     toRegister: function () {
