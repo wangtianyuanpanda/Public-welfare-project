@@ -4,18 +4,18 @@ import {FETCH_FAILED, FETCH_SUCCESS, UNAUTHORIZED_CODE, NOLOGIN, RELOGIN} from '
 export const welfareGet = (jrApi, fetchPrm = {}) => {
   return new Promise(function (resolve, reject) {
     fetchGet(jrApi, fetchPrm, function (ret) {
-      //登陆失败
-      if (ret.code === RELOGIN || ret.code === NOLOGIN) {
-        location.href = '#/login';
-        return;
-      }
-      //没有权限
-      if (ret.code === UNAUTHORIZED_CODE) {
-        location.href = '#/home';
-        return;
-      }
+      // //登陆失败
+      // if (ret.code === RELOGIN || ret.code === NOLOGIN) {
+      //   location.href = '#/login';
+      //   return;
+      // }
+      // //没有权限
+      // if (ret.code === UNAUTHORIZED_CODE) {
+      //   location.href = '#/home';
+      //   return;
+      // }
       //成功
-      switch (ret.state) {
+      switch (ret.success) {
         case FETCH_SUCCESS:
           resolve(ret);
           break;
@@ -34,15 +34,15 @@ export const welfareGet = (jrApi, fetchPrm = {}) => {
 export const welfarePost = (jrApi, fetchPrm = {}, method) => {
   return new Promise(function (resolve, reject) {
     fetchPost(jrApi, fetchPrm, function (ret) {
-      if (ret.code === RELOGIN || ret.code === NOLOGIN) {
-        location.href = '#/login';
-        return;
-      }
-      if (ret.code === UNAYTHORIZED_CODE) {
-        location.href = '#/home';
-        return;
-      }
-      switch (ret.state) {
+      // if (ret.code === RELOGIN || ret.code === NOLOGIN) {
+      //   location.href = '#/login';
+      //   return;
+      // }
+      // if (ret.code === UNAUTHORIZED_CODE) {
+      //   location.href = '#/home';
+      //   return;
+      // }
+      switch (ret.success) {
         case FETCH_SUCCESS:
           resolve(ret);
           break;

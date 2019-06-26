@@ -1,3 +1,5 @@
+const baseUrl = 'http://106.14.13.220';
+export const UNAYTHORIZED_CODE = 403;
 export const getUrlParameter = (sParam) => {
   var sPageURL = decodeURIComponent(window.location.href.substring(window.location.href.lastIndexOf('?') + 1)),
     sURLVariables = sPageURL.split('&'),
@@ -14,7 +16,7 @@ export const getUrlParameter = (sParam) => {
 };
 
 export const fetchGet = (requestApi, fetchPrm, successFunc, errorFunc) => {
-  let thisUrl =  `${requestApi}`;
+  let thisUrl = `${requestApi}`;
   for (let item in fetchPrm) {
     if(fetchPrm[item] === undefined) {
       continue;
@@ -24,6 +26,7 @@ export const fetchGet = (requestApi, fetchPrm, successFunc, errorFunc) => {
   let headers = {
     'content-type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
+    'Access-Control-Allow-Origin': '*'
   };
   if(window.authorization) {
     Object.assign(headers, {
@@ -37,9 +40,10 @@ export const fetchGet = (requestApi, fetchPrm, successFunc, errorFunc) => {
       })
     }
   }
-  fetch(thisUrl, {
+  console.log(thisUrl)
+  fetch(baseUrl + thisUrl, {
     credentials: 'include',
-    headers: headers
+    headers: headers,
   }).then((response) => {
     const {
       status
@@ -74,7 +78,7 @@ export const fetchPost = (requestApi, fetchPrm, successFun, errorFun,method) => 
       })
     }
   }
-  fetch(requestApi, {
+  fetch(baseUrl + requestApi, {
     credentials: 'include',
     method: method || 'POST',
     headers: headers,

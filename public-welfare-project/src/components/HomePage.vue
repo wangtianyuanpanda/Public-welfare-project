@@ -1,33 +1,115 @@
 <template>
     <div class="container">
-      <div class="top-panel">
-        <a-input-search
-        placeholder="input search text"
-        style="width: 80%; margin-bottom: 20px;"
-        @search="onSearch"></a-input-search>
-        <a-carousel autoplay class="carousel-con">
-          <div><img src="../assets/p1.jpg"/></div>
-          <div><img src="../assets/p2.jpg"/></div>
-          <div><img src="../assets/p3.jpg"/></div>
-        </a-carousel>
+      <Header title="智能补助金查询平台" :is-toggle="isResult" style="margin-bottom: 10px" @back="toggleResult"></Header>
+      <a-drawer
+        title="筛选条件"
+        placement="left"
+        :closable="false"
+        :maskClosable="true"
+        @close="onClose"
+        :visible="visible"
+        class="drawer"
+      >
+        <p style="display: flex">
+          <span style="white-space: nowrap; height: 1.8rem; line-height: 1.8rem">名称：</span>
+          <a-input v-model="formInline.title"></a-input>
+        </p>
+        <p style="display: flex">
+          <span style="white-space: nowrap; height: 1.8rem; line-height: 1.8rem">时间：</span>
+          <a-input v-model="formInline.time"></a-input>
+        </p>
+        <p style="display: flex">
+          <span style="white-space: nowrap; height: 1.8rem; line-height: 1.8rem">金额：</span>
+          <a-input v-model="formInline.award_money"></a-input>
+        </p>
+        <p style="display: flex">
+          <span style="white-space: nowrap; height: 1.8rem; line-height: 1.8rem">种类：</span>
+          <a-input v-model="formInline.category"></a-input>
+        </p>
+        <p>
+          <span>年份：</span>
+          <a-select style="width: 100px" v-model="formInline.year">
+            <a-select-option v-for="i in years" :value="i">
+              {{ i }}
+            </a-select-option>
+          </a-select>
+        </p>
+        <p class="reset-btn" @click="reset">
+          重置
+        </p>
+      </a-drawer>
+      <div v-if="!isResult">
+        <div class="top-panel">
+          <img src="../assets/search.png" v-on:click="toggleDrawer" style="margin-left: -1.5rem; margin-right: 0.5rem; width: 1.7rem;"/>
+          <a-input-search
+            placeholder="input search text"
+            v-model="formInline.keywords"
+            style="width: 80%; margin-bottom: 5px;"
+            @search="onSearch"></a-input-search>
+          <a-checkbox @change="onCheck">仅显示本人奖学金</a-checkbox>
+          <a-carousel autoplay class="carousel-con">
+            <div><img src="../assets/p1.jpg"/></div>
+            <div><img src="../assets/p2.jpg"/></div>
+            <div><img src="../assets/p3.jpg"/></div>
+          </a-carousel>
+        </div>
+        <div class="main-panel">
+          <a-tooltip v-for="(item, index) in list" :key="index" :title="item" placement="topLeft" >
+            <p>{{ item }}</p>
+          </a-tooltip>
+        </div>
+        <div class="bottom-panel">
+          <p>浏览量：{{ PV }}</p>
+        </div>
       </div>
-      <div class="main-panel">
-        <a-tooltip v-for="item in list" :key="item" :title="item" placement="topLeft">
-          <p>{{ item }}</p>
-        </a-tooltip>
-      </div>
-      <div class="bottom-panel">
-        <p>浏览量：{{ PV }}</p>
+      <div v-else style="height: calc(100% - 20px); width: 100%; overflow-x: hidden;">
+        <div v-for="(item, index) in data" class="list-item" :key="index">
+          <p>
+            标题：{{item.fields.title}}
+          </p>
+          <p>
+            年份：{{item.fields.time}}
+          </p>
+        </div>
       </div>
     </div>
 </template>
 
 <script>
+import Option from "ant-design-vue/es/vc-select/Option";
+import Header from './elements/Header';
+import {welfarePost} from "../common/common";
+
 export default {
   name: 'HomePage',
+  components: {Option, Header},
   data () {
     return {
       PV: 888,
+      visible: false,
+      formInline: {
+        title: '',
+        academy_apply: '',
+        time: '',
+        condition: '',
+        category: '',
+        quata: '',
+        award_money: '',
+        year: '',
+        continue_get: '',
+      },
+      years: [
+        2010,2011,2012,2013,2014,2015,2016,2017,2018,2019
+      ],
+      data: [{
+        title: '宝钢奖学金',
+        time: 2019
+      },{
+        title: '宝钢奖学金',
+        time: 2012
+      }],
+      isPrivate: false,
+      isResult: false,
       list: [
         '一等学业奖学金&&&不限制&&&不需要学生本人申请，于秋冬学期根据成绩排名和品德等级自动产生&&&1.学习努力、成绩优秀的学生2.评选比例不超过参评学生总人数的3%&&&教育基金会;校设常规奖学金#老体系&&&2000/每人&&&不限制&&&no',
         '二等学业奖学金&&&不限制&&&不需要学生本人申请，根据成绩排名和品德等级自动产生&&&1.学习努力、成绩优秀的学生2.评选比例不超过参评学生总人数的8%&&&教育基金会;校设常规奖学金#老体系&&&1500/每人&&&不限制&&&no',
@@ -45,7 +127,40 @@ export default {
   methods: {
     onSearch: function () {
       // TODO
-      this.$message.info('searching')
+      // this.$message.info('searching');
+      welfarePost('/search/', this.formInline).then(ret => {
+        console.log(ret['data']);
+        this.data = ret['data'];
+        console.log('success')
+      }).catch(e => {
+        console.log('error')
+      })
+      this.toggleResult();
+    },
+    toggleDrawer: function () {
+      this.visible = !this.visible;
+    },
+    onClose: function () {
+      this.visible = false
+    },
+    onCheck: function (e) {
+      this.isPrivate = e.target.checked;
+    },
+    toggleResult: function () {
+      this.isResult = !this.isResult;
+    },
+    reset: function () {
+      this.formInline = {
+        title: '',
+        academy_apply: '',
+        time: '',
+        condition: '',
+        category: '',
+        quata: '',
+        award_money: '',
+        year: '',
+        continue_get: '',
+      };
     }
   }
 }
@@ -54,8 +169,7 @@ export default {
 <style lang="less" scoped>
 
   .container {
-    padding: 20px 10px;
-    height: calc(100% - 50px);
+    height: calc(100% - 10px);
     width: 100%;
     overflow-x: hidden;
     .top-panel {
@@ -74,9 +188,9 @@ export default {
         }
       }
     }
-
     .main-panel {
-      height: calc(100% - 350px);
+      /*height: calc(100% - 350px);*/
+      height: 300px;
       width: 100%;
       padding: 20px 0;
       overflow-x: hidden;
@@ -93,4 +207,29 @@ export default {
     }
 
     }
+    .drawer {
+      p {
+        display: flex;
+      }
+    }
+  .list-item {
+    background: #AEEEEE;
+    border-radius: 4px;
+    margin: 0 10px 10px;
+    padding: 7px 6px 1px;
+    text-align: left;
+  }
+  .reset-btn {
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: unset;
+    background: #D3D3D3;
+    text-align: center;
+    font-size: 20px;
+    box-shadow: 0 2px 9px #D3D3D3;
+  }
 </style>
