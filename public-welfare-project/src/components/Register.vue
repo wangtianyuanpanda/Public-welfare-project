@@ -82,6 +82,8 @@ import Header from './elements/Header'
 const md5 = require('js-md5');
 const accountSID = '25ff03e7301038182d51cf9788e7cb42'
 const authToken = '6dc848afc1c34a0a349edadcd8c41e4b'
+import {welfarePost} from "../common/common";
+
 export default {
   name: 'Register',
   components: {AFormItem, Header},
@@ -122,7 +124,14 @@ export default {
     },
     register: function () {
       console.log(this.form.getFieldValue('name'))
-      //todo
+      let postData = {
+        account: this.form.getFieldValue('name'),
+        password: this.form.getFieldValue('password')
+      }
+      welfarePost('/register/', postData).then((ret) => {
+        this.$message.info('注册成功');
+        location.href = '#/login';
+      })
     }
   }
 }

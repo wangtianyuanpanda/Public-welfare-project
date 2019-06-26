@@ -65,10 +65,10 @@
       <div v-else style="height: calc(100% - 20px); width: 100%; overflow-x: hidden;">
         <div v-for="(item, index) in data" class="list-item" :key="index">
           <p>
-            标题：{{item.fields.title}}
+            标题：{{item.fields && item.fields.title}}
           </p>
           <p>
-            年份：{{item.fields.time}}
+            年份：{{item.fields && item.fields.time}}
           </p>
         </div>
       </div>

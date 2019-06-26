@@ -58,13 +58,10 @@ export default {
       //   }
       // }
       //后端接口登陆
-      // welfarePost('/api/login', {name: this.formInline.name, password: this.formInline.password}).then(ret => {
-      //   console.log('success')
-      // })
-      // welfareGet('/name').then(ret => {
-      //   console.log('success');
-      // })
-      location.href = '#/home'
+      welfarePost('/login/', {account: this.formInline.name, password: this.formInline.password}).then(ret => {
+        this.$message.info('登陆成功');
+        location.href = '#/home'
+      })
     },
     toRegister: function () {
       location.href = '#/register'
